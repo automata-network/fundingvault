@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_fundingvault_webui=self.webpackChunk_fundingvault_webui||[]).push([[6713],{6713:(u,e,a)=>{a.r(e),a.d(e,{default:()=>n.I});var n=a(9574)}}]);
