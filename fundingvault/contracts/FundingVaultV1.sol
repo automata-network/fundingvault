@@ -160,9 +160,9 @@ contract FundingVaultV1 is
     require(grant.claimInterval > 0 && grant.claimLimit > 0 && grant.claimTime > 0, "invalid grant");
     
     uint256 claimLimit = grant.claimLimit * 1 ether;
-    if(requestAmount > claimLimit) {
-      requestAmount = claimLimit;
-    }
+    // if(requestAmount > claimLimit) {
+    //   requestAmount = claimLimit;
+    // }
 
     uint64 time = _getTime();
     if(_grantClaimLock[grantId] > time) {
@@ -176,13 +176,13 @@ contract FundingVaultV1 is
       uint64 baseClaimTime = grant.claimTime;
       uint64 availableTime = time - baseClaimTime;
       uint256 dustBalance = grant.dustBalance;
-      if(availableTime > grant.claimInterval) {
-        // available time exceeds interval
-        // the sender claimed less than granted, the unclaimed amount is no longer available 
-        availableTime = grant.claimInterval;
-        baseClaimTime = time - grant.claimInterval;
-        dustBalance = 0;
-      }
+      // if(availableTime > grant.claimInterval) {
+      //   // available time exceeds interval
+      //   // the sender claimed less than granted, the unclaimed amount is no longer available 
+      //   availableTime = grant.claimInterval;
+      //   baseClaimTime = time - grant.claimInterval;
+      //   dustBalance = 0;
+      // }
 
       if(requestAmount != 0 && requestAmount <= dustBalance) {
         // take from dust balance

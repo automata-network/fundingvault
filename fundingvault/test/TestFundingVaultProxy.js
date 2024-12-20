@@ -580,4 +580,84 @@ describe("Funding Vault Tests", function () {
 			}
 		});
 	});	
+
+	describe("Removed upper bound", () => {
+		async function prepareTest(proxiedVault) {
+			const [owner, grantee] = await ethers.getSigners();
+			const ownerAddress = await owner.getAddress();
+
+			// add manager role to owner
+			let managerRole = await proxiedVault.GRANT_MANAGER_ROLE();
+			await proxiedVault.grantRole(managerRole, ownerAddress);
+
+			// diable grant locking after creation / transfer for easier test
+			// otherwise, we'd have to wait 10mins after grant creation to see some claimable balance
+			await proxiedVault.setClaimTransferLockTime(0);
+
+			// configure manager limits for tests
+			await proxiedVault.setManagerGrantLimits(
+				1000, // amount
+				3600, // interval
+				3600, // cooldown (number of seconds added to the cooldown clock when a grant worth amount/interval got managed)
+				1800, // cooldownLock (lock manager when cooldown clock is above this value)
+			);
+
+			// send some funds to the vault, otherwise there is nothing to claim
+			await owner.sendTransaction({
+				to: await proxiedVault.getAddress(),
+				value: 2000000000000000000000n, // send 2000 ETH
+			});
+		}
+
+		it("pays out user the expected amount when claiming a grant past the intended interval", async() => {
+			const {proxy, token, vault, proxiedVault} = await loadFixture(deployProxyFixture);
+			const [owner, grantee, recipient] = await ethers.getSigners();
+			await prepareTest(proxiedVault);
+			
+			const balanceBefore = await ethers.provider.getBalance(recipient.getAddress());
+
+			// create a grant (100 ETH per hour)
+			await proxiedVault.createGrant(grantee.getAddress(), 100, 3600, toHex("Test Grant", 32));
+
+			// claim all available balance
+			await proxiedVault.connect(grantee).claimTo(0, recipient.getAddress());
+
+			// at this point in time, the grantee should not entitled to any more funds
+			expect(await proxiedVault.connect(grantee).getClaimableBalance()).to.equal(0);
+
+			// "wait" 2 hours
+			await time.increase(7200);
+
+			// check funds entitled
+			expect(await proxiedVault.connect(grantee).getClaimableBalance()).to.equal(ethers.parseEther("200"));
+		
+			// claim funds
+			await proxiedVault.connect(grantee).claimTo(0, recipient.getAddress());
+
+			// check funds entitled
+			expect(await proxiedVault.connect(grantee).getClaimableBalance()).to.equal(0);
+
+			// "wait another 2 hours"
+			await time.increase(7200);
+
+			// check funds entitled
+			expect(await proxiedVault.connect(grantee).getClaimableBalance()).to.equal(ethers.parseEther("200"));
+
+			// claim partial funds
+			await proxiedVault.connect(grantee).claimTo(ethers.parseEther("100"), recipient.getAddress());
+
+			// check remaining funds entitled
+			expect(await proxiedVault.connect(grantee).getClaimableBalance()).to.equal(ethers.parseEther("100"));
+
+			// "wait three hours"
+			await time.increase(10800);
+
+			// check funds entitled
+			expect(await proxiedVault.connect(grantee).getClaimableBalance()).to.equal(ethers.parseEther("400"));
+
+			// check balance
+			const balanceAfter = await ethers.provider.getBalance(recipient.getAddress());
+			expect(balanceAfter - balanceBefore).to.equal(ethers.parseEther("400"));
+		})
+	})
 });
