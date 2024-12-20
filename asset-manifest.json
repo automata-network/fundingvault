@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/fundingvault/webui/static/css/main.677ccd12.css",
-    "main.js": "/fundingvault/webui/static/js/main.85a1c292.js",
+    "main.js": "/fundingvault/webui/static/js/main.9a3c13e6.js",
     "static/js/9858.c35b2fa0.chunk.js": "/fundingvault/webui/static/js/9858.c35b2fa0.chunk.js",
     "static/js/4668.8a1dbe67.chunk.js": "/fundingvault/webui/static/js/4668.8a1dbe67.chunk.js",
     "static/js/6713.1600a777.chunk.js": "/fundingvault/webui/static/js/6713.1600a777.chunk.js",
@@ -58,11 +58,11 @@
     "static/js/787.595ef195.chunk.js": "/fundingvault/webui/static/js/787.595ef195.chunk.js",
     "static/js/774.4b299af8.chunk.js": "/fundingvault/webui/static/js/774.4b299af8.chunk.js",
     "static/js/3317.edcde1ca.chunk.js": "/fundingvault/webui/static/js/3317.edcde1ca.chunk.js",
-    "static/js/5419.be3faa81.chunk.js": "/fundingvault/webui/static/js/5419.be3faa81.chunk.js",
-    "static/js/8547.5a8dfafd.chunk.js": "/fundingvault/webui/static/js/8547.5a8dfafd.chunk.js",
+    "static/js/5419.7e03aa18.chunk.js": "/fundingvault/webui/static/js/5419.7e03aa18.chunk.js",
+    "static/js/8547.78e64eba.chunk.js": "/fundingvault/webui/static/js/8547.78e64eba.chunk.js",
     "index.html": "/fundingvault/webui/index.html",
     "main.677ccd12.css.map": "/fundingvault/webui/static/css/main.677ccd12.css.map",
-    "main.85a1c292.js.map": "/fundingvault/webui/static/js/main.85a1c292.js.map",
+    "main.9a3c13e6.js.map": "/fundingvault/webui/static/js/main.9a3c13e6.js.map",
     "9858.c35b2fa0.chunk.js.map": "/fundingvault/webui/static/js/9858.c35b2fa0.chunk.js.map",
     "4668.8a1dbe67.chunk.js.map": "/fundingvault/webui/static/js/4668.8a1dbe67.chunk.js.map",
     "219.c9394cfe.chunk.js.map": "/fundingvault/webui/static/js/219.c9394cfe.chunk.js.map",
@@ -116,11 +116,11 @@
     "787.595ef195.chunk.js.map": "/fundingvault/webui/static/js/787.595ef195.chunk.js.map",
     "774.4b299af8.chunk.js.map": "/fundingvault/webui/static/js/774.4b299af8.chunk.js.map",
     "3317.edcde1ca.chunk.js.map": "/fundingvault/webui/static/js/3317.edcde1ca.chunk.js.map",
-    "5419.be3faa81.chunk.js.map": "/fundingvault/webui/static/js/5419.be3faa81.chunk.js.map",
-    "8547.5a8dfafd.chunk.js.map": "/fundingvault/webui/static/js/8547.5a8dfafd.chunk.js.map"
+    "5419.7e03aa18.chunk.js.map": "/fundingvault/webui/static/js/5419.7e03aa18.chunk.js.map",
+    "8547.78e64eba.chunk.js.map": "/fundingvault/webui/static/js/8547.78e64eba.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.677ccd12.css",
-    "static/js/main.85a1c292.js"
+    "static/js/main.9a3c13e6.js"
   ]
 }
