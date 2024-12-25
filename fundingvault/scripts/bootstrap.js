@@ -4,7 +4,7 @@ const fs = require('fs');
 
 
 /* bootstrap commands:
-npx hardhat vars set FUNDINGVAULT_DEPLOYER_PRIVATE_KEY
+npx hardhat vars set FUNDINGVAULT_OWNER_PRIVATE_KEY
 npx hardhat vars set FUNDINGVAULT_OWNER_ADDRESS
 npx hardhat run scripts/bootstrap.js --network ephemery
 */
@@ -43,7 +43,15 @@ async function main() {
 
     // Initialize vault thorugh proxy's upgradeToAndCall
     console.log("calling upgradeToAndCall on FundingVaultProxy...")
-    const initData = vault.interface.encodeFunctionData("initialize(address)", [tokenAddress]);
+    const vaultConfig = readVaultConfig();
+    const initData = vault.interface.encodeFunctionData("initialize(address,uint32,uint128,uint64,uint32,uint32)", [
+        tokenAddress,
+        vaultConfig.claimTransferLockTime, // in seconds
+        vaultConfig.managerLimitAmount, // ETH
+        vaultConfig.managerLimitInterval, // in seconds
+        vaultConfig.managerLimitCooldown, // in seconds
+        vaultConfig.managerLimitCooldownLock // in seconds
+    ]);
     console.log("init data: " + initData)
     await proxy.connect(deployer).upgradeToAndCall(vaultAddress, initData, {
         gasLimit: 150000,
@@ -72,6 +80,33 @@ async function main() {
         console.log("  success.");
     }
 
+    const chainId = network.config.chainId;
+    saveDeployment(chainId, proxyAddress, tokenAddress, vaultAddress);
+}
+
+function readVaultConfig() {
+    const path = 'vault.config.json';
+    const obj = JSON.parse(fs.readFileSync(path, 'utf8'));
+    return obj;
+}
+
+function saveDeployment(
+    chainId,
+    proxyAddr,
+    tokenAddr,
+    implAddr
+) {
+    const path = `deployment/${chainId}.json`;
+    const obj = {
+        "FundingVaultProxy": proxyAddr,
+        "FundingVaultToken": tokenAddr,
+        "FudingVaultV1": implAddr
+    };
+    fs.writeFileSync(
+        path,
+        JSON.stringify(obj),
+        "utf8"
+    );
 }
 
 main()
