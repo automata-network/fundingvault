@@ -29,8 +29,8 @@ const ClaimForm = (props: { grantId: number }): React.ReactElement => {
   let chainConfig = ConfigForChainId(chain!.id)!;
   let [claimAmount, setClaimAmount] = useState("10");
   let [claimTarget, setClaimTarget] = useState("");
-  let [claimAll, setClaimAll] = useState<boolean>(false);
-  let [claimTargetCustom, setClaimTargetCustom] = useState<boolean>(true);
+  let [claimAll] = useState<boolean>(false);
+  let [claimTargetCustom] = useState<boolean>(true);
 
   const grantDetails = useReadContract({
     address: chainConfig.VaultContractAddr,
@@ -148,6 +148,7 @@ const ClaimForm = (props: { grantId: number }): React.ReactElement => {
                 <img
                   className="ata-fork-icon"
                   src={forkIcon}
+                  alt="fork"
                   onClick={() => {
                     setClaimTarget("");
                   }}
@@ -159,7 +160,11 @@ const ClaimForm = (props: { grantId: number }): React.ReactElement => {
 
         {claimRequest.isPending && (claimRequest.data as any) ? (
           <div className="ata-notification pending ata-claim-notification">
-            <img className="ata-notification-icon ata-spin" src={loadingIcon} />
+            <img
+              className="ata-notification-icon ata-spin"
+              src={loadingIcon}
+              alt="loading"
+            />
             <div className="ata-notification-content">
               <div className="ata-notification-title">
                 Claim transaction pending...
@@ -182,7 +187,11 @@ const ClaimForm = (props: { grantId: number }): React.ReactElement => {
 
         {claimRequest.isError ? (
           <div className="ata-notification failed ata-claim-notification">
-            <img className="ata-notification-icon" src={xCircleIcon} />
+            <img
+              className="ata-notification-icon"
+              src={xCircleIcon}
+              alt="error"
+            />
             <div className="ata-notification-content">
               <div className="ata-notification-title">Claim failed.</div>
               <div className="ata-notification-msg">
@@ -209,7 +218,11 @@ const ClaimForm = (props: { grantId: number }): React.ReactElement => {
 
         {claimRequest.isSuccess ? (
           <div className="ata-notification success ata-claim-notification">
-            <img className="ata-notification-icon" src={checkCircleIcon} />
+            <img
+              className="ata-notification-icon"
+              src={checkCircleIcon}
+              alt="success"
+            />
             <div className="ata-notification-content">
               <div className="ata-notification-title">Claim TX.</div>
               <div className="ata-notification-msg">
@@ -238,6 +251,7 @@ const ClaimForm = (props: { grantId: number }): React.ReactElement => {
             >
               <img
                 className="ata-currency-dollar-icon"
+                alt="currency-dollar"
                 src={currencyDollarIcon}
               />
               Request Funds

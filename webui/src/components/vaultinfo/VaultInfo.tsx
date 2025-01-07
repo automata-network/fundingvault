@@ -39,7 +39,7 @@ const VaultInfo = (): React.ReactElement => {
           openConnectModal();
         }}
       >
-        <img className="wallet-icon" src={walletIcon} />
+        <img className="wallet-icon" src={walletIcon} alt="wallet" />
         Connect Wallet
       </GlassButton>
     );
