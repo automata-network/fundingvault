@@ -453,3 +453,25 @@ button[data-testid="rk-account-button"] > div:nth-child(2) > div:nth-child(1) > 
       transform:rotate(360deg);
   }
 }
+
+.ata-more-info {
+  margin-top: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-self: center;
+}
+
+.ata-export-icon {
+  margin-left: 8px;
+  width: 10px;
+  height: 10px;
+}
+
+.ata-go-back-btn{
+  margin-top: 8px;
+}
+
+.ata-arrow-icon {
+  width: 24px;
+  height: 24px;
+}

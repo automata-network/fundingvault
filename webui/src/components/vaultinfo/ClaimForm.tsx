@@ -16,6 +16,7 @@ import currencyDollarIcon from "../../assets/imgs/currency-dollar.png";
 import checkCircleIcon from "../../assets/imgs/check-circle.png";
 import xCircleIcon from "../../assets/imgs/x-circle.png";
 import loadingIcon from "../../assets/imgs/loading.png";
+import exportIcon from "../../assets/imgs/export.png";
 
 interface IGrantDetails {
   claimInterval: bigint;
@@ -24,13 +25,17 @@ interface IGrantDetails {
   dustBalance: bigint;
 }
 
-const ClaimForm = (props: { grantId: number }): React.ReactElement => {
+const ClaimForm = (props: {
+  grantId: number;
+  displayMoreInfo: boolean;
+  onMoreInfoDisplay: () => void;
+}): React.ReactElement => {
   const { address, chain } = useAccount();
-  let chainConfig = ConfigForChainId(chain!.id)!;
-  let [claimAmount, setClaimAmount] = useState("10");
-  let [claimTarget, setClaimTarget] = useState("");
-  let [claimAll] = useState<boolean>(false);
-  let [claimTargetCustom] = useState<boolean>(true);
+  const chainConfig = ConfigForChainId(chain!.id)!;
+  const [claimAmount, setClaimAmount] = useState("10");
+  const [claimTarget, setClaimTarget] = useState("");
+  const [claimAll] = useState<boolean>(false);
+  const [claimTargetCustom] = useState<boolean>(true);
 
   const grantDetails = useReadContract({
     address: chainConfig.VaultContractAddr,
@@ -105,6 +110,18 @@ const ClaimForm = (props: { grantId: number }): React.ReactElement => {
             )}
           </span>
         </div>
+      </div>
+      <div className="ata-more-info">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            props.onMoreInfoDisplay();
+          }}
+        >
+          More details
+          <img className="ata-export-icon" src={exportIcon} alt="export" />
+        </a>
       </div>
       <div className="ata-claim-form">
         <div className="row mt-2">
