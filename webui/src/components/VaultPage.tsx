@@ -10,6 +10,7 @@ import FundingVaultAbi from "../abi/FundingVault.json";
 
 import VaultInfo from "./vaultinfo/VaultInfo";
 import GrantList from "./grantlist/GrantList";
+import { GlassButton } from "./button/GlassButton";
 
 const VaultPage = (): React.ReactElement => {
   const { address: walletAddress, isConnected, chain } = useAccount();
@@ -39,12 +40,9 @@ const VaultPage = (): React.ReactElement => {
             {isManager ? (
               <div className="manager-btn px-3">
                 <Link to="/manage">
-                  <button
-                    type="button"
-                    className="btn btn-light font-weight-bold"
-                  >
+                  <GlassButton className="ata-manage-btn">
                     Manage Grants
-                  </button>
+                  </GlassButton>
                 </Link>
               </div>
             ) : null}

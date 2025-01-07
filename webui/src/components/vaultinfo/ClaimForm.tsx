@@ -13,10 +13,8 @@ import { isAddress } from "ethers";
 import { GlassButton } from "../button/GlassButton";
 import forkIcon from "../../assets/imgs/fork.png";
 import currencyDollarIcon from "../../assets/imgs/currency-dollar.png";
-import checkCircleIcon from "../../assets/imgs/check-circle.png";
-import xCircleIcon from "../../assets/imgs/x-circle.png";
-import loadingIcon from "../../assets/imgs/loading.png";
 import exportIcon from "../../assets/imgs/export.png";
+import { Alert } from "../alert/Alert";
 
 interface IGrantDetails {
   claimInterval: bigint;
@@ -176,17 +174,12 @@ const ClaimForm = (props: {
         </div>
 
         {claimRequest.isPending && (claimRequest.data as any) ? (
-          <div className="ata-notification pending ata-claim-notification">
-            <img
-              className="ata-notification-icon ata-spin"
-              src={loadingIcon}
-              alt="loading"
-            />
-            <div className="ata-notification-content">
-              <div className="ata-notification-title">
-                Claim transaction pending...
-              </div>
-              <div className="ata-notification-msg">
+          <Alert
+            className="ata-claim-notification"
+            type="loading"
+            title="Claim transaction pending..."
+            message={
+              <>
                 TX:{" "}
                 <a
                   href={
@@ -197,21 +190,18 @@ const ClaimForm = (props: {
                 >
                   {claimRequest.data}
                 </a>
-              </div>
-            </div>
-          </div>
+              </>
+            }
+          />
         ) : null}
 
         {claimRequest.isError ? (
-          <div className="ata-notification failed ata-claim-notification">
-            <img
-              className="ata-notification-icon"
-              src={xCircleIcon}
-              alt="error"
-            />
-            <div className="ata-notification-content">
-              <div className="ata-notification-title">Claim failed.</div>
-              <div className="ata-notification-msg">
+          <Alert
+            className="ata-claim-notification"
+            type="error"
+            title="Claim failed."
+            message={
+              <>
                 {(claimRequest.data as any) ? (
                   <>
                     TX:{" "}
@@ -228,21 +218,18 @@ const ClaimForm = (props: {
                   </>
                 ) : null}
                 {claimRequest.error?.message}
-              </div>
-            </div>
-          </div>
+              </>
+            }
+          />
         ) : null}
 
         {claimRequest.isSuccess ? (
-          <div className="ata-notification success ata-claim-notification">
-            <img
-              className="ata-notification-icon"
-              src={checkCircleIcon}
-              alt="success"
-            />
-            <div className="ata-notification-content">
-              <div className="ata-notification-title">Claim TX.</div>
-              <div className="ata-notification-msg">
+          <Alert
+            className="ata-claim-notification"
+            type="success"
+            title="Claim TX."
+            message={
+              <>
                 {(claimRequest.data as any) ? (
                   <a
                     href={
@@ -254,9 +241,9 @@ const ClaimForm = (props: {
                     {claimRequest.data}
                   </a>
                 ) : null}
-              </div>
-            </div>
-          </div>
+              </>
+            }
+          />
         ) : null}
 
         <div className="row mt-3">
