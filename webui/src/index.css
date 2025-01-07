@@ -358,10 +358,19 @@ button[data-testid="rk-account-button"] > div:nth-child(2) > div:nth-child(1) > 
   display: flex;
   gap: 12px;
   align-items: center;
+  background-color: rgba(226, 180, 90, 0.05);
 }
 
 .ata-notification.failed {
   background-color: rgba(226, 90, 90, 0.05);
+}
+
+.ata-notification.success {
+  background-color: rgba(109, 226, 90, 0.05);
+}
+
+.ata-notification.pending {
+  background-color: rgba(226, 180, 90, 0.05);
 }
 
 .ata-notification::before {
@@ -383,11 +392,19 @@ button[data-testid="rk-account-button"] > div:nth-child(2) > div:nth-child(1) > 
   width: 100%;
   height: 100%;
   border-radius: 8px;
-  border-left: solid 3px rgba(212, 108, 36, 1);
+  border-left: solid 3px rgba(226, 180, 90, 1);
 }
 
 .ata-notification.failed::after {
   border-left: solid 3px rgba(226, 90, 90, 1);
+}
+
+.ata-notification.success::after {
+  border-left: solid 3px rgba(109, 226, 90, 1);
+}
+
+.ata-notification.pending::after {
+  border-left: solid 3px rgba(226, 180, 90, 1);
 }
 
 .ata-notification-icon {
@@ -396,6 +413,8 @@ button[data-testid="rk-account-button"] > div:nth-child(2) > div:nth-child(1) > 
 }
 
 .ata-notification-content {
+  position: relative;
+  z-index: 1;
   flex-shrink: 1;
   display: flex;
   flex-direction: column;
@@ -417,4 +436,20 @@ button[data-testid="rk-account-button"] > div:nth-child(2) > div:nth-child(1) > 
 
 .ata-claim-notification {
   margin-top: 24px;
+}
+
+.ata-spin {
+  animation-name: spin;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
 }

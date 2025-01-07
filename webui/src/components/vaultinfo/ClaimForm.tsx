@@ -15,6 +15,7 @@ import forkIcon from "../../assets/imgs/fork.png";
 import currencyDollarIcon from "../../assets/imgs/currency-dollar.png";
 import checkCircleIcon from "../../assets/imgs/check-circle.png";
 import xCircleIcon from "../../assets/imgs/x-circle.png";
+import loadingIcon from "../../assets/imgs/loading.png";
 
 interface IGrantDetails {
   claimInterval: bigint;
@@ -158,6 +159,7 @@ const ClaimForm = (props: { grantId: number }): React.ReactElement => {
 
         {claimRequest.isPending && (claimRequest.data as any) ? (
           <div className="ata-notification pending ata-claim-notification">
+            <img className="ata-notification-icon ata-spin" src={loadingIcon} />
             <div className="ata-notification-content">
               <div className="ata-notification-title">
                 Claim transaction pending...
