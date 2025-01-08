@@ -80,7 +80,19 @@ const ClaimForm = (props: {
   }
 
   return (
-    <div>
+    <>
+      <div className="ata-more-info">
+        <a
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            props.onMoreInfoDisplay();
+          }}
+        >
+          More details
+          <img className="ata-export-icon" src={exportIcon} alt="export" />
+        </a>
+      </div>
       <div className="ata-claim-info">
         <div className="ata-claim-info-section">
           <span className="ata-claim-info-label">Claimable balance:</span>
@@ -109,27 +121,12 @@ const ClaimForm = (props: {
           </span>
         </div>
       </div>
-      <div className="ata-more-info">
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            props.onMoreInfoDisplay();
-          }}
-        >
-          More details
-          <img className="ata-export-icon" src={exportIcon} alt="export" />
-        </a>
-      </div>
       <div className="ata-claim-form">
-        <div className="row mt-2">
-          <div className="col-4 ata-form-label">
-            Amount ({chainConfig.TokenName})
-          </div>
-          <div className="col-8 ata-form-label">Target Wallet</div>
-        </div>
-        <div className="row">
-          <div className="col-4">
+        <div className="ata-claim-form-fields">
+          <div className="ata-claim-form-field ata-claim-form-field-amount">
+            <div className="ata-form-label">
+              Amount ({chainConfig.TokenName})
+            </div>
             <div className="ata-input-container">
               <input
                 type="number"
@@ -149,7 +146,8 @@ const ClaimForm = (props: {
               </GlassButton>
             </div>
           </div>
-          <div className="col-8">
+          <div className="ata-claim-form-field">
+            <div className="ata-form-label">Target Wallet</div>
             <div className="ata-input-container">
               <input
                 type="text"
@@ -246,24 +244,20 @@ const ClaimForm = (props: {
           />
         ) : null}
 
-        <div className="row mt-3">
-          <div className="col-12">
-            <GlassButton
-              className="ata-claim-button"
-              onClick={(evt) => requestFunds(evt.target as HTMLButtonElement)}
-              disabled={claimRequest.isPending}
-            >
-              <img
-                className="ata-currency-dollar-icon"
-                alt="currency-dollar"
-                src={currencyDollarIcon}
-              />
-              Request Funds
-            </GlassButton>
-          </div>
-        </div>
+        <GlassButton
+          className="ata-claim-button"
+          onClick={(evt) => requestFunds(evt.target as HTMLButtonElement)}
+          disabled={claimRequest.isPending}
+        >
+          <img
+            className="ata-currency-dollar-icon"
+            alt="currency-dollar"
+            src={currencyDollarIcon}
+          />
+          Request Funds
+        </GlassButton>
       </div>
-    </div>
+    </>
   );
 
   function requestFunds(button: HTMLButtonElement) {

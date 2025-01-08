@@ -59,7 +59,15 @@ const VaultPage = (): React.ReactElement => {
           </div>
           <div className="page-footer">
             <span>
-              Powered by{" "}
+              Brought to you by{" "}
+              <a
+                href="https://www.ata.network/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Automata Netowork
+              </a>{" "}
+              | Powered by{" "}
               <a
                 href="https://github.com/ethpandaops/fundingvault"
                 target="_blank"
