@@ -28,7 +28,14 @@ const EligibilityCheck = (props: {
   });
 
   if (tokenBalance.isLoading || firstTokenId.isLoading) {
-    return <Loading text="Loading eligibility..."></Loading>;
+    return (
+      <Alert
+        className="ata-claim-eligibility-check-error"
+        type="loading"
+        title="Checking eligibility"
+        message="We are checking your eligibility to claim your grant."
+      />
+    );
   }
   if (tokenBalance.isError) {
     return (
@@ -62,10 +69,6 @@ const EligibilityCheck = (props: {
   }
 
   return <ClaimForm grantId={firstTokenId.data as number} {...props} />;
-};
-
-const Loading = (props: { text: string }) => {
-  return <div className="p-4">{props.text}</div>;
 };
 
 export default EligibilityCheck;
