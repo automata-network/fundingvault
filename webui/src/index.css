@@ -1,3 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-overflow-scrolling: touch;
+  font-family: Work Sans;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, .66)
+}
+
+a {
+  color: rgba(212, 108, 36, 1);
+}
+
+a:hover {
+  color: rgba(212, 108, 36, 1);
+  text-decoration: underline;
+}
+
+a:active {
+  color: rgba(212, 108, 36, 1);
+  text-decoration: underline;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
 
 #root {
   height: 100vh;
@@ -19,6 +56,10 @@
   word-break: wrap;
   display: flex;
   flex-direction: column;
+  background-image: url(./assets/imgs/background.jpg);
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .page-wrapper {
@@ -33,7 +74,6 @@
 
 .page-header {
   display: flex;
-  min-height: 64px;
   justify-content: flex-end;
   padding: 12px;
 }
@@ -46,12 +86,410 @@
 }
 
 .page-block {
-  background-color: rgba(240, 248, 255, .7);
-  border-radius: .375rem;
-  box-shadow: 0 0 #0000, 0 0 #0000, 0 4px 6px -1px rgba(0, 0, 0, .1), 0 2px 4px -2px rgba(0, 0, 0, .1);
+  padding: 24px;
   text-align: left;
-  padding: 12px;
-  width: 90%;
-  max-width: 600px;
-  min-height: 200px;
+  max-width: 609px;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.14em;
+  color: #fff;
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.ata-border-bottom {
+  border-bottom: 1px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to left, rgba(255,255,255, 0.03), rgba(255,255,255, 0.13));
+}
+
+.ata-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  box-shadow: 0px 0px 15px 0px rgba(5, 3, 28, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+.ata-card::before {
+  content: "";
+  inset: 0;
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.ata-card-content {
+  position: relative;
+}
+
+.wallet-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.ata-glass-btn {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  width: 100%;
+  height: 56px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+}
+
+.ata-glass-btn::before {
+  content: "";
+  inset: 0;
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.ata-glass-btn-content {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 0 16px;
+}
+
+.connect-btn {
+  margin-top: 8px;
+}
+
+button[data-testid="rk-connect-button"], button[data-testid="rk-chain-button"], button[data-testid="rk-account-button"] {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05)!important;
+  border: none;
+  backdrop-filter: blur(4px);
+  font-size: 14px!important;
+  line-height: 16.8px!important;
+  font-weight: 500!important;
+  padding: 8px 12px!important;
+  border-radius: 8px!important;
+  height: auto!important;
+  gap: 8px!important;
+}
+
+button[data-testid="rk-connect-button"]:hover, button[data-testid="rk-chain-button"]:hover, button[data-testid="rk-account-button"]:hover{
+  transform: scale(1)!important;
+}
+
+button[data-testid="rk-connect-button"]::before, button[data-testid="rk-chain-button"]::before, button[data-testid="rk-account-button"]::before{
+  content: "";
+  inset: 0;
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+button[data-testid="rk-chain-button"] {
+  margin-right: 4px!important;
+}
+
+button[data-testid="rk-account-button"] {
+  gap: 15px!important;
+}
+
+button[data-testid="rk-account-button"] > div:nth-child(1) {
+  padding: 0;
+}
+
+button[data-testid="rk-account-button"] > div:nth-child(2) {
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+button[data-testid="rk-account-button"] > div:nth-child(2)> div:nth-child(1) {
+  gap: 8px;
+  height: 20px;
+  align-items: center;
+}
+
+button[data-testid="rk-account-button"] > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) {
+  transform: scale(0.83);
+  margin: -2px;
+}
+
+button[data-testid="rk-account-button"] > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) {
+  font-size: 14px!important;
+  line-height: 16.8px!important;
+  font-weight: 500!important;
+}
+
+button[data-testid="rk-account-button"] > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > svg:nth-child(2) {
+  display: none;
+}
+
+.ata-claim-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ata-form-label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  margin-bottom: 12px;
+}
+
+.ata-claim-info-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 18px;
+}
+
+.ata-claim-info-content {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.ata-claim-info-section {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ata-claim-form {
+  margin-top: 24px;
+}
+
+.ata-input-container {
+  position: relative;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ata-input-container::before {
+  content: "";
+  inset: 0;
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.ata-input {
+  position: relative;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+  font-size: 16px;
+  line-height: 18px;
+  font-weight: 400;
+  height: 48px;
+  padding-left: 16px;
+  padding-right: 0;
+}
+
+.ata-input:focus {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  color: #fff;
+}
+
+.ata-input::placeholder {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.ata-max-button{
+  flex-shrink: 0;
+  width: 50px;
+  height: 28px;
+  margin-right: 8px;
+}
+
+.ata-max-button .ata-glass-btn-content{
+  padding: 0;
+  font-size: 14px;
+  line-height: 16px;
+  font-weight: 500;
+}
+
+.ata-fork-icon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+.ata-claim-button {
+  margin-top: 8px;
+}
+
+.ata-currency-dollar-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.ata-notification {
+  position: relative;
+  border-radius: 8px;
+  padding: 11px 16px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  background-color: rgba(226, 180, 90, 0.05);
+}
+
+.ata-notification.error {
+  background-color: rgba(226, 90, 90, 0.05);
+}
+
+.ata-notification.success {
+  background-color: rgba(109, 226, 90, 0.05);
+}
+
+.ata-notification.loading {
+  background-color: rgba(226, 180, 90, 0.05);
+}
+
+.ata-notification::before {
+  content: "";
+  inset: 0;
+  position: absolute;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.03));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  border-radius: 8px;
+  padding: 1px;
+}
+
+.ata-notification::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  border-left: solid 3px rgba(226, 180, 90, 1);
+}
+
+.ata-notification.error::after {
+  border-left: solid 3px rgba(226, 90, 90, 1);
+}
+
+.ata-notification.success::after {
+  border-left: solid 3px rgba(109, 226, 90, 1);
+}
+
+.ata-notification.loading::after {
+  border-left: solid 3px rgba(226, 180, 90, 1);
+}
+
+.ata-notification-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.ata-notification-content {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ata-notification-title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16px;
+  color: #fff;
+}
+
+.ata-notification-msg{
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 14px;
+}
+
+.ata-claim-notification {
+  margin-top: 24px;
+}
+
+.ata-spin {
+  animation-name: spin;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
+}
+
+.ata-more-info {
+  margin-top: 16px;
+  margin-bottom: 24px;
+  display: flex;
+  align-self: center;
+}
+
+.ata-export-icon {
+  margin-left: 8px;
+  width: 10px;
+  height: 10px;
+}
+
+.ata-go-back-btn{
+  margin-top: 8px;
+}
+
+.ata-arrow-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.ata-claim-eligibility-check-error {
+  margin-top: 24px;
+}
+
+.modal-content{
+  color: #000;
+}
+
+.ata-manage-btn {
+  height: 36px;
+}
+
+.ata-manage-btn .ata-glass-btn-content {
+  font-size: 14px;
 }

@@ -34,11 +34,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "dev": "react-scripts start",
-    "start": "react-scripts start",
-    "build": "REACT_APP_GIT_VERSION=$(git rev-parse --short HEAD) react-scripts build && cp walletconnect.txt build/.well-known/walletconnect.txt",
-    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\"",
-    "eject": "react-scripts eject"
+    "dev": "craco start",
+    "start": "craco start",
+    "build": "NODE_ENV=production REACT_APP_GIT_VERSION=$(git rev-parse --short HEAD) craco build && cp walletconnect.txt build/.well-known/walletconnect.txt",
+    "test": "craco test --transformIgnorePatterns \"node_modules/(?!@rainbow-me)/\"",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
@@ -63,5 +63,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@craco/craco": "^7.1.0"
   }
 }

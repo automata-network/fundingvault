@@ -1,64 +1,71 @@
-import {
-	useAccount,
-  useReadContract,
-} from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { ConfigForChainId } from "../../utils/chaincfg";
 
 import VaultTokenAbi from "../../abi/VaultToken.json";
 import ClaimForm from "./ClaimForm";
+import { Alert } from "../alert/Alert";
 
-const EligibilityCheck = (): React.ReactElement => {
+const EligibilityCheck = (props: {
+  displayMoreInfo: boolean;
+  onMoreInfoDisplay: () => void;
+}): React.ReactElement => {
   const { address, chain } = useAccount();
   let chainConfig = ConfigForChainId(chain!.id)!;
 
   const tokenBalance = useReadContract({
-		address: chainConfig.TokenContractAddr,
-		abi: VaultTokenAbi,
-		chainId: chainConfig.Chain.id,
-		functionName: "balanceOf",
-		args: [ address ],
-	});
+    address: chainConfig.TokenContractAddr,
+    abi: VaultTokenAbi,
+    chainId: chainConfig.Chain.id,
+    functionName: "balanceOf",
+    args: [address],
+  });
   const firstTokenId = useReadContract({
-		address: chainConfig.TokenContractAddr,
-		abi: VaultTokenAbi,
-		chainId: chainConfig.Chain.id,
-		functionName: "tokenOfOwnerByIndex",
-		args: [ address, 0 ],
-	});
+    address: chainConfig.TokenContractAddr,
+    abi: VaultTokenAbi,
+    chainId: chainConfig.Chain.id,
+    functionName: "tokenOfOwnerByIndex",
+    args: [address, 0],
+  });
 
-  if(tokenBalance.isLoading || firstTokenId.isLoading) {
-    return (
-      <Loading text="Loading eligibility...">
-      </Loading>
-    )
+  if (tokenBalance.isLoading || firstTokenId.isLoading) {
+    return <Loading text="Loading eligibility..."></Loading>;
   }
-  if(tokenBalance.isError) {
+  if (tokenBalance.isError) {
     return (
-      <div className="alert alert-danger">Failed checking eligibility: {tokenBalance.error.message}</div>
-    )
+      <Alert
+        className="ata-claim-eligibility-check-error"
+        type="error"
+        title="Failed checking eligibility"
+        message={tokenBalance.error.message}
+      />
+    );
   }
-  if(tokenBalance.data == 0) {
+  if (tokenBalance.data == 0) {
     return (
-      <div>
-        Sorry, your wallet ({address}) is not authorized to request funds from the FundingVault. Have you <a href="https://github.com/ethpandaops/fundingvault/blob/master/README.md#applying-for-a-grant">applied for a grant</a> already? 
-      </div>
-    )
+      <Alert
+        className="ata-claim-eligibility-check-error"
+        type="error"
+        title="Access not authorized"
+        message="It seems like your wallet hasn’t been granted access to our vault."
+      />
+    );
   }
-  if(firstTokenId.isError) {
+  if (firstTokenId.isError) {
     return (
-      <div className="alert alert-danger">Failed checking eligibility: {firstTokenId.error.message}</div>
-    )
+      <Alert
+        className="ata-claim-eligibility-check-error"
+        type="error"
+        title="Failed checking eligibility"
+        message={firstTokenId.error.message}
+      />
+    );
   }
-  
-  return <ClaimForm grantId={firstTokenId.data as number} />;
-}
 
-const Loading = (props: {text: string}) => {
-	return (
-		<div className="p-4">
-			{props.text}
-		</div>
-	)
-}
+  return <ClaimForm grantId={firstTokenId.data as number} {...props} />;
+};
+
+const Loading = (props: { text: string }) => {
+  return <div className="p-4">{props.text}</div>;
+};
 
 export default EligibilityCheck;
