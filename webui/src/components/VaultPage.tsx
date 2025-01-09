@@ -65,7 +65,7 @@ const VaultPage = (): React.ReactElement => {
                 target="_blank"
                 rel="noreferrer"
               >
-                Automata Netowork
+                Automata Network
               </a>{" "}
               | Powered by{" "}
               <a
