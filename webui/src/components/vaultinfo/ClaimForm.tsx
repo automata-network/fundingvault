@@ -2,7 +2,7 @@ import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { ConfigForChainId } from "../../utils/chaincfg";
 
 import FundingVaultAbi from "../../abi/FundingVault.json";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   toBigintUnit,
   toDecimalUnit,
@@ -15,6 +15,7 @@ import forkIcon from "../../assets/imgs/fork.png";
 import currencyDollarIcon from "../../assets/imgs/currency-dollar.png";
 import exportIcon from "../../assets/imgs/export.png";
 import { Alert } from "../alert/Alert";
+import { ChainConfig } from "../../config";
 
 interface IGrantDetails {
   claimInterval: bigint;
@@ -31,7 +32,7 @@ const ClaimForm = (props: {
   const { address, chain } = useAccount();
   const chainConfig = ConfigForChainId(chain!.id)!;
   const [claimAmount, setClaimAmount] = useState("10");
-  const [claimTarget, setClaimTarget] = useState("");
+  const [claimTarget, setClaimTarget] = useState<string>(address);
   const [claimAll] = useState<boolean>(false);
   const [claimTargetCustom] = useState<boolean>(true);
 
@@ -63,21 +64,26 @@ const ClaimForm = (props: {
       clearInterval(interval);
     };
   }, [claimableBalance]);
+  const maxAmount = useMemo(() => {
+    let _maxAmount = toDecimalUnit(
+      claimableBalance.data as bigint,
+      chain?.nativeCurrency.decimals
+    );
+    if (isNaN(_maxAmount)) {
+      _maxAmount = 0;
+    }
+    _maxAmount = Math.round(_maxAmount * 1000) / 1000;
 
-  let maxAmount = toDecimalUnit(
-    claimableBalance.data as bigint,
-    chain?.nativeCurrency.decimals
-  );
-  if (isNaN(maxAmount)) {
-    maxAmount = 0;
-  }
-  maxAmount = Math.round(maxAmount * 1000) / 1000;
+    return _maxAmount;
+  }, [claimableBalance.data, chain?.nativeCurrency.decimals]);
 
-  if (parseInt(claimAmount) > maxAmount) {
-    setClaimAmount(maxAmount.toString());
-  } else if (parseInt(claimAmount) < 0) {
-    setClaimAmount("0");
-  }
+  useEffect(() => {
+    if (parseFloat(claimAmount) > maxAmount) {
+      setClaimAmount(maxAmount.toString());
+    } else if (parseFloat(claimAmount) < 0) {
+      setClaimAmount("0");
+    }
+  }, [claimAmount, maxAmount, setClaimAmount]);
 
   return (
     <>
@@ -246,7 +252,20 @@ const ClaimForm = (props: {
 
         <GlassButton
           className="ata-claim-button"
-          onClick={(evt) => requestFunds(evt.target as HTMLButtonElement)}
+          onClick={(evt) =>
+            requestFunds({
+              button: evt.target as HTMLButtonElement,
+              claimTarget,
+              claimAmount,
+              claimAll,
+              grantId: props.grantId,
+              maxAmount,
+              address,
+              decimals: chain?.nativeCurrency.decimals!,
+              chainConfig,
+              claimRequest,
+            })
+          }
           disabled={claimRequest.isPending}
         >
           <img
@@ -259,46 +278,66 @@ const ClaimForm = (props: {
       </div>
     </>
   );
-
-  function requestFunds(button: HTMLButtonElement) {
-    button.disabled = true;
-
-    let targetAddress = claimTarget;
-    if (claimTargetCustom && !isAddress(targetAddress)) {
-      alert("Provided target address '" + targetAddress + "' is invalid.");
-      button.disabled = false;
-      return;
-    }
-
-    let amount = parseInt(claimAmount);
-    if (claimAll) {
-      amount = 0;
-    } else if (amount == 0 || amount > maxAmount) {
-      alert("Desired amount '" + claimAmount + "' is invalid.");
-      button.disabled = false;
-      return;
-    }
-    let amountWei = toBigintUnit(amount, chain?.nativeCurrency.decimals);
-
-    let callfn = "claim";
-    let callArgs: any[] = [props.grantId, amountWei];
-    if (
-      claimTargetCustom &&
-      targetAddress.toLowerCase() != address?.toLowerCase()
-    ) {
-      callfn = "claimTo";
-      callArgs.push(targetAddress);
-    }
-
-    claimRequest.writeContract({
-      address: chainConfig.VaultContractAddr,
-      account: address,
-      abi: FundingVaultAbi,
-      chainId: chainConfig.Chain.id,
-      functionName: callfn,
-      args: callArgs,
-    });
-  }
 };
+
+function requestFunds(options: {
+  button: HTMLButtonElement;
+  claimTarget: string;
+  claimAmount: string;
+  claimAll: boolean;
+  grantId: number;
+  maxAmount: number;
+  address: string;
+  decimals: number;
+  chainConfig: ChainConfig;
+  claimRequest: ReturnType<typeof useWriteContract>;
+}) {
+  const {
+    button,
+    claimTarget,
+    claimAmount,
+    claimAll,
+    grantId,
+    maxAmount,
+    address,
+    decimals,
+    chainConfig,
+    claimRequest,
+  } = options;
+  button.disabled = true;
+
+  let targetAddress = claimTarget;
+  if (!isAddress(targetAddress)) {
+    alert("Provided target address '" + targetAddress + "' is invalid.");
+    button.disabled = false;
+    return;
+  }
+
+  let amount = parseFloat(claimAmount);
+  if (claimAll) {
+    amount = 0;
+  } else if (amount == 0 || amount > maxAmount) {
+    alert("Desired amount '" + claimAmount + "' is invalid.");
+    button.disabled = false;
+    return;
+  }
+  let amountWei = toBigintUnit(amount, decimals);
+
+  let callfn = "claim";
+  let callArgs: any[] = [grantId, amountWei];
+  if (targetAddress.toLowerCase() != address?.toLowerCase()) {
+    callfn = "claimTo";
+    callArgs.push(targetAddress);
+  }
+
+  claimRequest.writeContract({
+    address: chainConfig.VaultContractAddr,
+    account: address,
+    abi: FundingVaultAbi,
+    chainId: chainConfig.Chain.id,
+    functionName: callfn,
+    args: callArgs,
+  });
+}
 
 export default ClaimForm;
