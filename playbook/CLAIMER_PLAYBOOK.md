@@ -23,8 +23,6 @@ ___
 - The maximum amount you can claim is displayed as the claimable balance
 - A small amount of **ATA** is required as gas to complete the claim
 
-The amount can be claimed up to the maximum claimable balance displayed on the screen. This requires a small amount of gas fees in ATA to claim the funds.
-
 ___
 
 ## Understanding claimable balance and earning rate
