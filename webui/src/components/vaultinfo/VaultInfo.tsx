@@ -69,7 +69,7 @@ const VaultInfo = (): React.ReactElement => {
               <br />
               Learn more{" "}
               <a
-                href="https://github.com/ethpandaops/fundingvault/blob/master/README.md"
+                href="https://github.com/automata-network/fundingvault/blob/master/playbook/CLAIMER_PLAYBOOK.md"
                 target="_blank"
                 rel="noreferrer"
               >
